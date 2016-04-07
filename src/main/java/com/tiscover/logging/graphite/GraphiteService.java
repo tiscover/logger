@@ -67,9 +67,6 @@ public class GraphiteService extends AbstractGraphiteService {
 
 	/**
 	 * summarizes value in one minute
-	 *
-	 * @param path
-	 * @param value
 	 */
 	public void sendMinuteSum(String path, double value) {
 		if (!getSocket().isEnabled()) {
