@@ -1,15 +1,48 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>com.tiscover</groupId>
 	<artifactId>logging</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Graphite and Elkstack Logging for Java</name>
+
+	<name>Tiscover-Logging</name>
+	<description>
+		Tiscover-Logging is a simple library that connects your java application directly to graphite for a numerical overview of the System and to Logstash/Elkstack for error-messages or other textual logging 
+	</description>
+	<url>www.tiscover.com</url>
+
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>9</version>
+	</parent>
+
+	<licenses>
+		<license>
+			<name>GNU General Public License (GPL)</name>
+			<url>http://www.gnu.org/licenses/gpl.txt</url>
+		</license>
+	</licenses>
+
+	<scm>
+		<url>https://github.com/tiscover/logger</url>
+		<connection>scm:git:git://github.com/tiscover/logger.git</connection>
+		<developerConnection>scm:git:git@github.com:tiscover/logger.git</developerConnection>
+	</scm>
 
 	<properties>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
 	</properties>
+
+	<developers>
+		<developer>
+			<id>manzinger</id>
+			<name>Martin Anzinger</name>
+			<email>martin.anzinger@tiscover.com</email>
+		</developer>
+	</developers>
 
 	<dependencies>
 		<dependency>
@@ -18,4 +51,27 @@
 			<version>20160212</version>
 		</dependency>
 	</dependencies>
+	
+	 <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <configLocation>config/checkstyle.xml</configLocation>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <configLocation>config/checkstyle.xml</configLocation>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+
 </project>
