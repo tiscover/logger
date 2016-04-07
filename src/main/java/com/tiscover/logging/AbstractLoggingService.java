@@ -10,7 +10,7 @@ public abstract class AbstractLoggingService {
 	private long timerShortIdleTime = 1000;
 	private volatile long lastTimerRun = 0;
 	private boolean stop = false;
-	
+
 	private static Map<Class<? extends AbstractLoggingSocket>, AbstractLoggingSocket> instances = new ConcurrentHashMap<>();
 
 	private final Timer timer;
@@ -33,7 +33,7 @@ public abstract class AbstractLoggingService {
 		if (socketClass == null) {
 			throw new IllegalArgumentException("socketClass must not be null");
 		}
-		
+
 		if (getSocket(socketClass) != null) {
 			getSocket(socketClass).setEnabled(false);
 		}
@@ -80,17 +80,17 @@ public abstract class AbstractLoggingService {
 		}
 	}
 
-	public void stopTimer () {
+	public void stopTimer() {
 		stop = true;
 		if (timer != null) {
 			timer.cancel();
 		}
 	}
-	
-	public void stopAndWaitForLastTimer () {
+
+	public void stopAndWaitForLastTimer() {
 		stop = true;
 	}
-	
+
 	public long getLastTimerRun() {
 		return lastTimerRun;
 	}

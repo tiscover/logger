@@ -75,7 +75,7 @@ public abstract class AbstractLoggingSocket {
 
 	public boolean isEnabled() {
 		return enabled && observer.isEnabled();
-	}
+	} 
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;

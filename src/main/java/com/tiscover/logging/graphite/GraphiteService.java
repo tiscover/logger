@@ -65,7 +65,7 @@ public class GraphiteService extends AbstractGraphiteService {
 		}
 	}
 
-	/**
+	/*
 	 * summarizes value in one minute
 	 */
 	public void sendMinuteSum(String path, double value) {

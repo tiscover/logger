@@ -20,7 +20,8 @@ public class MessageEntity {
 		this.value = value;
 	}
 
-	public String toString () {
+	@Override
+	public String toString() {
 		return "{'" + key + "' : '" + value + "'}";
 	}
 }

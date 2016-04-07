@@ -21,7 +21,7 @@ public class LogstashService extends AbstractLogstashService {
 	public LogstashService(String host, int port, EnabledObserver observer) {
 		super(host, port, observer);
 	}
-	
+
 	private LogstashService() {
 		super();
 	}
@@ -56,7 +56,7 @@ public class LogstashService extends AbstractLogstashService {
 		if (LogstashService.instance != instance) {
 			LogstashService.instance.stopTimer();
 		}
-			
+
 		LogstashService.instance = instance;
 	}
 }

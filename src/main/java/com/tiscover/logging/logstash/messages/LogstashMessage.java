@@ -16,10 +16,10 @@ public class LogstashMessage {
 	public LogstashMessage(String type) {
 		put("type", type);
 	}
-	
+
 	public LogstashMessage() {
 	}
-	
+
 	public void put(String key, String value) {
 		putInternal(key, value);
 	}
@@ -69,8 +69,9 @@ public class LogstashMessage {
 	public List<MessageEntity> getMessages() {
 		return messages;
 	}
-	
-	public String toString () {
+
+	@Override
+	public String toString() {
 		return messages.toString();
 	}
 }

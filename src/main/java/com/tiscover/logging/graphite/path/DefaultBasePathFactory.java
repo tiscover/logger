@@ -5,9 +5,9 @@ import java.util.List;
 
 public class DefaultBasePathFactory extends BasePathFactory {
 
-  @Override
-  public List<String> getBasePathElements() {
-    return Collections.emptyList();
-  }
+	@Override
+	public List<String> getBasePathElements() {
+		return Collections.emptyList();
+	}
 
 }

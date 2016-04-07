@@ -9,7 +9,7 @@ public abstract class AbstractLogstashService extends AbstractLoggingService {
 	public AbstractLogstashService(String host, int port, EnabledObserver observer) {
 		super(generateSocket(host, port, observer));
 	}
-	
+
 	public AbstractLogstashService() {
 		super(new DummySocket());
 	}
