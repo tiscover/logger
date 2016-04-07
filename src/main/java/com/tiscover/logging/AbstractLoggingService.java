@@ -9,7 +9,8 @@ public abstract class AbstractLoggingService {
 	private long timerIdleTime = 60000;
 	private long timerShortIdleTime = 1000;
 	private volatile long lastTimerRun = 0;
-
+	private boolean stop = false;
+	
 	private static Map<Class<? extends AbstractLoggingSocket>, AbstractLoggingSocket> instances = new ConcurrentHashMap<>();
 
 	private final Timer timer;
@@ -19,16 +20,20 @@ public abstract class AbstractLoggingService {
 	public abstract AbstractLoggingSocket getSocket();
 
 	public AbstractLoggingService(AbstractLoggingSocket socket) {
-		timer = new Timer(socket.getClass().getSimpleName() + "-sender-task");
-		scheduleTimer(getTimerIdleTime());
 		initService(socket);
+		if (socket.isEnabled()) {
+			timer = new Timer(socket.getClass().getSimpleName() + "-sender-task");
+			scheduleTimer(getTimerIdleTime());
+		} else {
+			timer = null;
+		}
 	}
 
 	protected static void disableService(Class<? extends AbstractLoggingSocket> socketClass) {
 		if (socketClass == null) {
 			throw new IllegalArgumentException("socketClass must not be null");
 		}
-
+		
 		if (getSocket(socketClass) != null) {
 			getSocket(socketClass).setEnabled(false);
 		}
@@ -70,9 +75,22 @@ public abstract class AbstractLoggingService {
 	}
 
 	protected void scheduleTimer(long millisec) {
-		timer.schedule(new LoggingSender(this), millisec);
+		if (!stop && timer != null) {
+			timer.schedule(new LoggingSender(this), millisec);
+		}
 	}
 
+	public void stopTimer () {
+		stop = true;
+		if (timer != null) {
+			timer.cancel();
+		}
+	}
+	
+	public void stopAndWaitForLastTimer () {
+		stop = true;
+	}
+	
 	public long getLastTimerRun() {
 		return lastTimerRun;
 	}
@@ -99,11 +117,20 @@ public abstract class AbstractLoggingService {
 
 	public static String getSocketInformation(Class<? extends AbstractLoggingSocket> socketClass) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Host: ").append(getSocket(socketClass).getHost());
-		sb.append("\nPort: ").append(getSocket(socketClass).getPort());
-		sb.append("\nisEnabled: ").append(getSocket(socketClass).isEnabled());
-		sb.append("\nnoOfStatisticPackages: ").append(getSocket(socketClass).getSendCount());
+		AbstractLoggingSocket socket = getSocket(socketClass);
+		if (socket == null) {
+			sb.append("Socket is null");
+		} else {
+			sb.append("Host: ").append(socket.getHost());
+			sb.append("\nPort: ").append(socket.getPort());
+			sb.append("\nisEnabled: ").append(socket.isEnabled());
+			sb.append("\nnoOfStatisticPackages: ").append(socket.getSendCount());
+		}
 		return sb.toString();
+	}
+
+	public boolean isStopped() {
+		return stop;
 	}
 
 }

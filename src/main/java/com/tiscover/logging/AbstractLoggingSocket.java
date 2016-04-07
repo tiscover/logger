@@ -8,7 +8,7 @@ import java.net.Socket;
 import com.tiscover.logging.observer.EnabledObserver;
 
 public abstract class AbstractLoggingSocket {
-	private boolean enabled = false;
+	private boolean enabled = true;
 	private Socket socket;
 	private String host;
 	private int port;

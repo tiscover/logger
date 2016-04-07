@@ -2,16 +2,24 @@ package com.tiscover.logging.logstash.messages;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import org.json.JSONObject;
 
 public class LogstashMessage {
-	private final List<MessageEntity<String>> messages = new ArrayList<>();
+	private final List<MessageEntity> messages = new ArrayList<>();
 	private String publicMessage = null;
 	private boolean valuesChanged = false;
 
+	public LogstashMessage(String type) {
+		put("type", type);
+	}
+	
+	public LogstashMessage() {
+	}
+	
 	public void put(String key, String value) {
 		putInternal(key, value);
 	}
@@ -33,17 +41,23 @@ public class LogstashMessage {
 	}
 
 	private void putInternal(String key, String value) {
-		MessageEntity<String> message = new MessageEntity<>();
-		message.setKey(key);
-		message.setValue(value);
-		getMessages().add(message);
-		valuesChanged = true;
+		if (key != null && !key.isEmpty() && value != null) {
+			MessageEntity message = new MessageEntity();
+			message.setKey(key);
+			message.setValue(value);
+			getMessages().add(message);
+			valuesChanged = true;
+		}
+	}
+
+	public void sortMessages() {
+		Collections.sort(messages, new MessageComparator());
 	}
 
 	public String toSocketMessage() {
 		if (valuesChanged || publicMessage == null) {
 			JSONObject object = new JSONObject();
-			for (MessageEntity<String> message : getMessages()) {
+			for (MessageEntity message : getMessages()) {
 				object.put(message.getKey(), message.getValue());
 			}
 			publicMessage = object.toString();
@@ -52,7 +66,11 @@ public class LogstashMessage {
 		return publicMessage;
 	}
 
-  public List<MessageEntity<String>> getMessages() {
-    return messages;
-  }
+	public List<MessageEntity> getMessages() {
+		return messages;
+	}
+	
+	public String toString () {
+		return messages.toString();
+	}
 }

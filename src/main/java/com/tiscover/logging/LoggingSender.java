@@ -26,10 +26,14 @@ public class LoggingSender extends TimerTask {
 		} catch (Exception e) {
 
 		} finally {
-			if (dur < service.getTimerIdleTime()) {
-				service.scheduleTimer(service.getTimerIdleTime() - dur);
+			if (!service.isStopped()) {
+				if (dur < service.getTimerIdleTime()) {
+					service.scheduleTimer(service.getTimerIdleTime() - dur);
+				} else {
+					service.scheduleTimer(service.getTimerShortIdleTime() - dur);
+				}
 			} else {
-				service.scheduleTimer(service.getTimerShortIdleTime() - dur);
+				service.stopTimer();
 			}
 		}
 	}

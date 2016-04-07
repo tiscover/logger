@@ -133,6 +133,10 @@ public class GraphiteService extends AbstractGraphiteService {
 	}
 
 	public static void set(GraphiteService instance) {
+		if (GraphiteService.instance != instance) {
+			GraphiteService.instance.stopTimer();
+		}
+		
 		GraphiteService.instance = instance;
 	}
 }
