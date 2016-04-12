@@ -17,7 +17,16 @@ public abstract class AbstractLoggingService {
 
 	protected abstract void executeTimerTask() throws IOException;
 
-	public abstract AbstractLoggingSocket getSocket();
+	public abstract AbstractLoggingSocket getSocket() throws IOException;
+
+	public boolean isEnabled() {
+		try {
+			AbstractLoggingSocket socket = getSocket();
+			return socket.isEnabled();
+		} catch (IOException e) {
+			return false;
+		}
+	}
 
 	public AbstractLoggingService(AbstractLoggingSocket socket) {
 		initService(socket);
@@ -34,8 +43,10 @@ public abstract class AbstractLoggingService {
 			throw new IllegalArgumentException("socketClass must not be null");
 		}
 
-		if (getSocket(socketClass) != null) {
+		try {
 			getSocket(socketClass).setEnabled(false);
+		} catch (IOException e) {
+			// ignore
 		}
 	}
 
@@ -55,12 +66,12 @@ public abstract class AbstractLoggingService {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected static <T> T getSocket(Class<T> socketClass) {
+	protected static <T> T getSocket(Class<T> socketClass) throws IOException {
 		AbstractLoggingSocket socket = instances.get(socketClass);
 		if (socketClass.isInstance(socket)) {
 			return (T) instances.get(socketClass);
 		}
-		return null;
+		throw new IOException("Socket is not available (" + socketClass.getName() + ")");
 	}
 
 	protected static void setSocket(AbstractLoggingSocket instance) {
@@ -117,14 +128,14 @@ public abstract class AbstractLoggingService {
 
 	public static String getSocketInformation(Class<? extends AbstractLoggingSocket> socketClass) {
 		StringBuilder sb = new StringBuilder();
-		AbstractLoggingSocket socket = getSocket(socketClass);
-		if (socket == null) {
-			sb.append("Socket is null");
-		} else {
+		try {
+			AbstractLoggingSocket socket = getSocket(socketClass);
 			sb.append("Host: ").append(socket.getHost());
 			sb.append("\nPort: ").append(socket.getPort());
 			sb.append("\nisEnabled: ").append(socket.isEnabled());
 			sb.append("\nnoOfStatisticPackages: ").append(socket.getSendCount());
+		} catch (IOException e) {
+			sb.append("Socket is null");
 		}
 		return sb.toString();
 	}

@@ -1,5 +1,7 @@
 package com.tiscover.logging.graphite;
 
+import java.io.IOException;
+
 import com.tiscover.logging.AbstractLoggingService;
 import com.tiscover.logging.DummySocket;
 import com.tiscover.logging.graphite.path.BasePathFactory;
@@ -12,13 +14,14 @@ public abstract class AbstractGraphiteService extends AbstractLoggingService {
 	public AbstractGraphiteService(String host, int port, EnabledObserver observer, BasePathFactory factory) {
 		super(generateSocket(host, port, observer, factory));
 	}
-	
+
 	public AbstractGraphiteService() {
 		super(new DummySocket());
 	}
-	
-	private static GraphiteSocket generateSocket (String host, int port, EnabledObserver observer, BasePathFactory factory) {
-		GraphiteSocket socket = new  GraphiteSocket(observer);
+
+	private static GraphiteSocket generateSocket(String host, int port, EnabledObserver observer,
+			BasePathFactory factory) {
+		GraphiteSocket socket = new GraphiteSocket(observer);
 		socket.setHost(host);
 		socket.setPort(port);
 		socket.setBasePathFactory(factory);
@@ -46,7 +49,7 @@ public abstract class AbstractGraphiteService extends AbstractLoggingService {
 	}
 
 	@Override
-	public GraphiteSocket getSocket() {
+	public GraphiteSocket getSocket() throws IOException {
 		return getSocket(GraphiteSocket.class);
 	}
 

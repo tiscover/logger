@@ -28,7 +28,7 @@
 	<scm>
 		<url>https://github.com/tiscover/logger</url>
 		<connection>scm:git:https://github.com/tiscover/logger.git</connection>
-		<developerConnection>scm:git:https://github.com/tiscover/logger.git</developerConnection>
+		<developerConnection>scm:git:https://git@github.com/tiscover/logger.git</developerConnection>
 	</scm>
 
 	<properties>

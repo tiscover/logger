@@ -1,5 +1,7 @@
 package com.tiscover.logging.logstash;
 
+import java.io.IOException;
+
 import com.tiscover.logging.AbstractLoggingService;
 import com.tiscover.logging.DummySocket;
 import com.tiscover.logging.observer.EnabledObserver;
@@ -22,7 +24,7 @@ public abstract class AbstractLogstashService extends AbstractLoggingService {
 	}
 
 	@Override
-	public LogstashSocket getSocket() {
+	public LogstashSocket getSocket() throws IOException {
 		return getSocket(LogstashSocket.class);
 	}
 

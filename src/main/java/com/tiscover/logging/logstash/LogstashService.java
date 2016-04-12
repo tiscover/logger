@@ -31,7 +31,7 @@ public class LogstashService extends AbstractLogstashService {
 	}
 
 	public void send(LogstashMessage message) {
-		if (!getSocket().isEnabled()) {
+		if (!isEnabled()) {
 			return;
 		}
 		synchronized (values) {

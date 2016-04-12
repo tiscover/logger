@@ -23,19 +23,19 @@ public class GraphiteService extends AbstractGraphiteService {
 	public GraphiteService(String host, int port, EnabledObserver observer, BasePathFactory factory) {
 		super(host, port, observer, factory);
 	}
-	
+
 	public GraphiteService(String host, int port, BasePathFactory factory) {
 		this(host, port, new DefaultEnabledObserver(), factory);
 	}
-	
+
 	public GraphiteService(String host, int port, EnabledObserver observer) {
 		this(host, port, observer, new DefaultBasePathFactory());
 	}
-	
+
 	public GraphiteService(String host, int port) {
 		this(host, port, new DefaultBasePathFactory());
 	}
-	
+
 	private GraphiteService() {
 		super();
 	}
@@ -45,7 +45,7 @@ public class GraphiteService extends AbstractGraphiteService {
 	}
 
 	public void sendMax(String path, double value) {
-		if (!getSocket().isEnabled()) {
+		if (!isEnabled()) {
 			return;
 		}
 		Double max = maxValues.get(getGraphiteBasePath() + path);
@@ -56,7 +56,7 @@ public class GraphiteService extends AbstractGraphiteService {
 	}
 
 	public void sendMin(String path, double val) {
-		if (!getSocket().isEnabled()) {
+		if (!isEnabled()) {
 			return;
 		}
 		Double min = minValues.get(getGraphiteBasePath() + path);
@@ -69,7 +69,7 @@ public class GraphiteService extends AbstractGraphiteService {
 	 * summarizes value in one minute
 	 */
 	public void sendMinuteSum(String path, double value) {
-		if (!getSocket().isEnabled()) {
+		if (!isEnabled()) {
 			return;
 		}
 
@@ -82,7 +82,7 @@ public class GraphiteService extends AbstractGraphiteService {
 	}
 
 	public void send(String path, double value) {
-		if (!getSocket().isEnabled()) {
+		if (!isEnabled()) {
 			return;
 		}
 		if (values.get(getGraphiteBasePath() + path) == null) {
@@ -133,7 +133,7 @@ public class GraphiteService extends AbstractGraphiteService {
 		if (GraphiteService.instance != instance) {
 			GraphiteService.instance.stopTimer();
 		}
-		
+
 		GraphiteService.instance = instance;
 	}
 }
