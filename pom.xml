@@ -4,7 +4,7 @@
 
 	<groupId>com.tiscover</groupId>
 	<artifactId>logging</artifactId>
-	<version>0.2-BETA</version>
+	<version>0.2</version>
 
 	<name>Tiscover-Logging</name>
 	<description>
