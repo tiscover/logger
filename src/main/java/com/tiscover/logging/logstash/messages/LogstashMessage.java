@@ -9,7 +9,7 @@ import java.util.List;
 import org.json.JSONObject;
 
 public class LogstashMessage {
-	private final List<MessageEntity> messages = new ArrayList<>();
+	private final List<MessageEntity<?>> messages = new ArrayList<>();
 	private String publicMessage = null;
 	private boolean valuesChanged = false;
 
@@ -25,7 +25,7 @@ public class LogstashMessage {
 	}
 
 	public void put(String key, Number value) {
-		putInternal(key, value.toString());
+		putInternal(key, value);
 	}
 
 	public void put(String key, Date value) {
@@ -42,7 +42,17 @@ public class LogstashMessage {
 
 	private void putInternal(String key, String value) {
 		if (key != null && !key.isEmpty() && value != null) {
-			MessageEntity message = new MessageEntity();
+			MessageEntity<String> message = new MessageEntity<>();
+			message.setKey(key);
+			message.setValue(value);
+			getMessages().add(message);
+			valuesChanged = true;
+		}
+	}
+
+	private void putInternal(String key, Number value) {
+		if (key != null && !key.isEmpty() && value != null) {
+			MessageEntity<Number> message = new MessageEntity<>();
 			message.setKey(key);
 			message.setValue(value);
 			getMessages().add(message);
@@ -57,7 +67,7 @@ public class LogstashMessage {
 	public String toSocketMessage() {
 		if (valuesChanged || publicMessage == null) {
 			JSONObject object = new JSONObject();
-			for (MessageEntity message : getMessages()) {
+			for (MessageEntity<?> message : getMessages()) {
 				object.put(message.getKey(), message.getValue());
 			}
 			publicMessage = object.toString();
@@ -66,7 +76,7 @@ public class LogstashMessage {
 		return publicMessage;
 	}
 
-	public List<MessageEntity> getMessages() {
+	public List<MessageEntity<?>> getMessages() {
 		return messages;
 	}
 

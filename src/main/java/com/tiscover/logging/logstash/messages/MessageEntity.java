@@ -1,8 +1,8 @@
 package com.tiscover.logging.logstash.messages;
 
-public class MessageEntity {
+public class MessageEntity<T> {
 	private String key;
-	private String value;
+	private T value;
 
 	public String getKey() {
 		return key;
@@ -12,11 +12,11 @@ public class MessageEntity {
 		this.key = key;
 	}
 
-	public String getValue() {
+	public T getValue() {
 		return value;
 	}
 
-	public void setValue(String value) {
+	public void setValue(T value) {
 		this.value = value;
 	}
 
