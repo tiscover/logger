@@ -87,6 +87,6 @@ public class LogstashMessageTest {
 	@Test
 	public void testNumericValue() {
 		LogstashMessage message = getBasicMessageSet();
-		Assert.assertEquals("{\"zzzmsg1\":\"val1\",\"aaamsg2\":2}", message.toSocketMessage());
+		Assert.assertTrue(message.toSocketMessage().contains("\"aaamsg2\":2"));
 	}
 }
