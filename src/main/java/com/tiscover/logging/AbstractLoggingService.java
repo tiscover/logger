@@ -87,7 +87,7 @@ public abstract class AbstractLoggingService {
 
 	protected void scheduleTimer(long millisec) {
 		if (!stop && timer != null) {
-			timer.schedule(new LoggingSender(this), millisec);
+			timer.schedule(new LoggingSender(this), Math.min(millisec, 1));
 		}
 	}
 
