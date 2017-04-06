@@ -20,8 +20,8 @@
 
 	<scm>
 		<url>https://github.com/tiscover/logger</url>
-		<connection>scm:git:git@github.com/tiscover/logger.git</connection>
-		<developerConnection>scm:git:git@github.com/tiscover/logger.git</developerConnection>
+		<connection>scm:git:git@github.com:tiscover/logger.git</connection>
+		<developerConnection>scm:git:git@github.com:tiscover/logger.git</developerConnection>
 		<tag>logging-1.1</tag>
   </scm>
 
