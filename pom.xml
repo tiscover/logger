@@ -3,7 +3,7 @@
 
 	<groupId>com.tiscover</groupId>
 	<artifactId>logging</artifactId>
-	<version>1.3</version>
+	<version>1.4-SNAPSHOT</version>
 
 	<name>Tiscover-Logging</name>
 	<description>
@@ -22,7 +22,7 @@
 		<url>https://github.com/tiscover/logger</url>
 		<connection>scm:git:git@github.com:tiscover/logger.git</connection>
 		<developerConnection>scm:git:git@github.com:tiscover/logger.git</developerConnection>
-		<tag>logging-1.3</tag>
+		<tag>logging-1.1</tag>
   </scm>
 
 	<properties>
