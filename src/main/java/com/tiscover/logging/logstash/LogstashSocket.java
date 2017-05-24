@@ -7,15 +7,15 @@ import com.tiscover.logging.observer.DefaultEnabledObserver;
 import com.tiscover.logging.observer.EnabledObserver;
 
 public class LogstashSocket extends com.tiscover.logging.AbstractLoggingSocket {
-	public LogstashSocket() {
-		this(new DefaultEnabledObserver());
-	}
+    public LogstashSocket() {
+        this(new DefaultEnabledObserver());
+    }
 
-	public LogstashSocket(EnabledObserver observer) {
-		super(observer);
-	}
+    public LogstashSocket(EnabledObserver observer) {
+        super(observer);
+    }
 
-	public void send(LogstashMessage o) throws IOException {
-		send(o.toSocketMessage());
-	}
+    public void send(LogstashMessage o) throws IOException {
+        send(o.toSocketMessage());
+    }
 }

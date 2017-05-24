@@ -10,53 +10,53 @@ import com.tiscover.logging.observer.EnabledObserver;
 
 public class LogstashService extends AbstractLogstashService {
 
-	private volatile static LogstashService instance = new LogstashService();
+    private volatile static LogstashService instance = new LogstashService();
 
-	private List<LogstashMessage> values = new ArrayList<>();
+    private List<LogstashMessage> values = new ArrayList<>();
 
-	public LogstashService(String host, int port) {
-		this(host, port, new DefaultEnabledObserver());
-	}
+    public LogstashService(String host, int port) {
+        this(host, port, new DefaultEnabledObserver());
+    }
 
-	public LogstashService(String host, int port, EnabledObserver observer) {
-		super(host, port, observer);
-	}
+    public LogstashService(String host, int port, EnabledObserver observer) {
+        super(host, port, observer);
+    }
 
-	private LogstashService() {
-		super();
-	}
+    private LogstashService() {
+        super();
+    }
 
-	public boolean isEmpty() {
-		return values.isEmpty();
-	}
+    public boolean isEmpty() {
+        return values.isEmpty();
+    }
 
-	public void send(LogstashMessage message) {
-		if (!isEnabled()) {
-			return;
-		}
-		synchronized (values) {
-			values.add(message);
-		}
-	}
+    public void send(LogstashMessage message) {
+        if (!isEnabled()) {
+            return;
+        }
+        synchronized (values) {
+            values.add(message);
+        }
+    }
 
-	@Override
-	protected void executeTimerTask() throws IOException {
-		List<LogstashMessage> messages = values;
-		values = new ArrayList<>();
-		for (LogstashMessage message : messages) {
-			getSocket().send(message);
-		}
-	}
+    @Override
+    protected void executeTimerTask() throws IOException {
+        List<LogstashMessage> messages = values;
+        values = new ArrayList<>();
+        for (LogstashMessage message : messages) {
+            getSocket().send(message);
+        }
+    }
 
-	public static LogstashService get() {
-		return instance;
-	}
+    public static LogstashService get() {
+        return instance;
+    }
 
-	public static void set(LogstashService instance) {
-		if (LogstashService.instance != instance) {
-			LogstashService.instance.stopTimer();
-		}
+    public static void set(LogstashService instance) {
+        if (LogstashService.instance != instance) {
+            LogstashService.instance.stopTimer();
+        }
 
-		LogstashService.instance = instance;
-	}
+        LogstashService.instance = instance;
+    }
 }
