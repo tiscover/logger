@@ -53,10 +53,6 @@ public class LogstashService extends AbstractLogstashService {
     }
 
     public static void set(LogstashService instance) {
-        if (LogstashService.instance != instance) {
-            LogstashService.instance.stopTimer();
-        }
-
         LogstashService.instance = instance;
     }
 }

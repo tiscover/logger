@@ -13,7 +13,7 @@ public abstract class AbstractLoggingService {
 
     private static Map<Class<? extends AbstractLoggingSocket>, AbstractLoggingSocket> instances = new ConcurrentHashMap<>();
 
-    private final Timer timer;
+    private static final Timer timer = new Timer("com.tiscover.logging.CentralLoggingTimer");
 
     protected abstract void executeTimerTask() throws IOException;
 
@@ -31,10 +31,7 @@ public abstract class AbstractLoggingService {
     public AbstractLoggingService(AbstractLoggingSocket socket) {
         initService(socket);
         if (socket.isEnabled()) {
-            timer = new Timer(socket.getClass().getSimpleName() + "-sender-task");
             scheduleTimer(getTimerIdleTime());
-        } else {
-            timer = null;
         }
     }
 
@@ -87,19 +84,16 @@ public abstract class AbstractLoggingService {
 
     protected void scheduleTimer(long millisec) {
         if (!stop && timer != null) {
-            timer.schedule(new LoggingSender(this), Math.min(millisec, 1));
+            timer.schedule(new LoggingSender(this), Math.max(millisec, 1));
         }
     }
 
     public void stopTimer() {
         stop = true;
-        if (timer != null) {
-            timer.cancel();
-        }
     }
 
     public void stopAndWaitForLastTimer() {
-        stop = true;
+        stopTimer();
     }
 
     public long getLastTimerRun() {
