@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import org.json.JSONObject;
+import com.tiscover.logging.logstash.messages.json.LOGJObject;
 
 public class LogstashMessage {
     private final List<MessageEntity<?>> messages = new ArrayList<>();
@@ -66,7 +66,7 @@ public class LogstashMessage {
 
     public String toSocketMessage() {
         if (valuesChanged || publicMessage == null) {
-            JSONObject object = new JSONObject();
+            LOGJObject object = new LOGJObject();
             for (MessageEntity<?> message : getMessages()) {
                 object.put(message.getKey(), message.getValue());
             }
